@@ -48,7 +48,7 @@ body{
     flex-direction: row;
     justify-content: center;
     border: blue solid;
-    height: 50vh;
+    height: 100%;
     width: 50vw;
 }
 
@@ -82,6 +82,21 @@ body{
     border: solid black;
 }
 
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: solid orange;
+    grid-gap: 0px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .box{
+    border: red solid;
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+  }
 
 
 
