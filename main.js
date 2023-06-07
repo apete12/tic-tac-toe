@@ -22,3 +22,23 @@ var bottomRightBox = document.querySelector(`.bottom-left`)
 
 
 // Event Listeners
+// playerOneWinCount
+// playerTwoWinCount
+// 
+// topLeftBox.addEventListener 
+// topCenterBox.addEventListener
+// topRightBox.addEventListener
+// 
+// centerLeftBox.addEventListener
+// centerCenterBox.addEventListener
+// centerRightBox.addEventListener
+// 
+// bottomLeftBox.addEventListener 
+// bottomCenterBox.addEventListener
+// bottomRightBox.addEventListener
+
+
+// Data Model
+
+// Functions
+

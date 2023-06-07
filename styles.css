@@ -15,7 +15,7 @@ body{
 .main-container{
     display: flex;
     flex-direction: row;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     border: red solid;
 }
@@ -48,7 +48,6 @@ body{
     flex-direction: row;
     justify-content: center;
     border: blue solid;
-    height: 100%;
     width: 50vw;
 }
 
@@ -84,7 +83,7 @@ body{
 
 .game-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 3fr);
     border: solid orange;
     grid-gap: 0px;
     padding: 20px;
