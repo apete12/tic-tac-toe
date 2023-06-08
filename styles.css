@@ -1,6 +1,6 @@
 
 body{
-    border: orange solid;
+    /* border: orange solid; */
     height: 100vh;
     width: 100vw;
     /* margin: 0; */
@@ -15,16 +15,16 @@ body{
 .main-container{
     display: flex;
     flex-direction: row;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
-    border: red solid;
+    /* border: black solid; */
 }
 
 .left-container,
 .right-container{
     display: flex;
     flex-direction: column;
-    border: green solid;
+    border: black solid;
     height: 100vh;
     width: 50vw;
 }
@@ -33,36 +33,31 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    border: green solid;
+    /* border: green solid; */
 }
 
 .win-count{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    border: red solid;
+    align-items: center;
+    /* border: red solid; */
 }
 
 .center-board-container{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    border: blue solid;
-    height: 100%;
+    /* border: blue solid; */
     width: 50vw;
 }
 
 .center-title-container{
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.center-board-container{
-    display: flex;
     flex-direction: column;
     justify-content: center;
 }
+
 
 .players-turn-statement{
     display: flex;
@@ -70,7 +65,7 @@ body{
     align-items: center;
     height: 100%;
     width: 100%;
-    border: solid green;
+    /* border: solid green; */
 }
 
 .board{
@@ -79,24 +74,49 @@ body{
     align-items: center;
     height: 100%;
     width: 100%;
-    border: solid black;
+    /* border: solid black; */
+    /* background-color: blue; */
 }
 
 .game-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border: solid orange;
+    grid-template-columns: repeat(3, 3fr);
+    /* border: solid orange; */
     grid-gap: 0px;
     padding: 20px;
     margin-top: 20px;
   }
 
   .box{
-    border: red solid;
+    /* border: red solid; */
     display: flex;
     justify-content: center;
     padding: 50px;
   }
+
+.center-left{
+    border-bottom: 5px solid black;
+    border-top: 5px solid black;
+}
+
+.center-right{
+    border-bottom: 5px solid black;
+    border-top: 5px solid black;
+}
+
+.top-center{
+    border-left: 5px solid black;
+    border-right: 5px solid black;
+}
+
+.center-center{
+    border: 5px solid black;
+}
+
+.bottom-center{
+    border-left: 5px solid black;
+    border-right: 5px solid black;
+}
 
 
 
