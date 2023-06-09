@@ -35,7 +35,7 @@ body{
     height: auto;
 }
 
-.ariana-symbol{
+.ariana-symbol-column{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -44,13 +44,23 @@ body{
     height: 7em;
 }
 
-.tom-symbol{
+.tom-symbol-column{
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     width: 7.2em;
     height: 7.2em;
+}
+
+.ariana-symbol,
+.tom-symbol{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 4em;
+    height: 4em;
 }
 
 .win-count{
@@ -83,7 +93,7 @@ body{
     align-items: center;
     justify-content: center;
     font-family: 'oswald', sans-serif;
-    font-size: 2em;
+    font-size: 1em;
 }
 
 .header-img{
@@ -130,12 +140,13 @@ body{
     grid-gap: 0px;
     padding: 20px;
     margin-top: 20px;
+    /* border: white solid; */
   }
 
   .box{
     display: flex;
     justify-content: center;
-    padding: 50px;
+    padding: 20px;
   }
 
 .center-left{
@@ -162,11 +173,13 @@ body{
     border-right: 5px solid white;
 }
 
+.hidden {
+    display: none!important;
+}
 
-
-
-
-
-
-
+.token {
+    border: 0px black solid;
+    width: 4em;
+    height: 4em;
+}
 

@@ -2,40 +2,39 @@
 <html lang="en">
 <head>
     <title>Tic Tac Toe</title>
+    <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="styles.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap">
+
 </head>
 <body>
 <main class="main-container">
     <section class="left-container">
-        <!-- <h2 class="player-symbol">X</h2> -->
-        <img class="ariana-symbol" src="assets/team-ariana.png"/>
+        <img class="ariana-symbol-column" src="assets/team-ariana.png"/>
         <h3 class="win-one-count win-count">Number of Wins</h3>
         <img class="vpr-cast" src="assets/team-ariana-column.png"/>
     </section>
     <section class="center-container">
         <div class ="center-title-container">
             <img class="header-img" src="assets/vpr-header.png"/>
-            <h2 class="players-turn-statement">Players Turn</h2>
-            <button class="shuffle-start-button">Shuffle Start</button>
+            <h2 class="current-turn-statement"></h2>
         </div>
         <div class ="center-board-container">
             <article class="game-grid">
-                <section class="top-left box">Top Left</section>
-                <section class="top-center box">Top Center</section>
-                <section class="top-right box">Top Right</section>
-                <section class="center-left box">Center Left</section>
-                <section class="center-center box">Center Center</section>
-                <section class="center-right box ">Center Right</section>
-                <section class="bottom-left box">Bottom Left</section>
-                <section class="bottom-center box">Bottom Center</section>
-                <section class="bottom-left box">Bottom Right</section>
+                <section id="top-left" class="top-left box open"></section>
+                <section id="top-center" class="top-center box open"></section>
+                <section id="top-right" class="top-right box open"></section>
+                <section id="center-left" class="center-left box open"></section>
+                <section id="center-center" class="center-center box" open></section>
+                <section id="center-right" class="center-right box open"></section>
+                <section id="bottom-left" class="bottom-left box open"></section>
+                <section id="bottom-center" class="bottom-center box open"></section>
+                <section id="bottom-right" class="bottom-right box open"></section>
             </article>
         </div>
     </section>
     <section class="right-container">
-        <!-- <h2 class="player-symbol">O</h2> -->
-        <img class="tom-symbol" src="assets/worm-with-mustach.png"/>
+        <img class="tom-symbol-column" src="assets/worm-with-mustach.png"/>
         <h3 class="win-two-count win-count">Number of Wins</h3>
         <img class="vpr-cast" src="assets/worm-column.png"/>
     </section>
