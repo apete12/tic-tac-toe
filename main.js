@@ -6,8 +6,9 @@ var playerTwoSymbol = document.querySelector(`.player-two-symbol`)
 var playerOneWinCount = document.querySelector(`.win-one-count`)
 var playerTwoWinCount = document.querySelector(`.win-two-count`)
 
-var shuffleStartButton = document.querySelector(`.shuffle-start-button`)
-var playersTurnStatement = document.querySelector(`.players-turn-statement`)
+var currentTurnStatement = document.querySelector(`.current-turn-statement`)
+
+var gameGrid = document.querySelector('.game-grid')
 
 var topLeftBox = document.querySelector(`.top-left`)
 var topCenterBox = document.querySelector(`.top-center`)
@@ -22,73 +23,110 @@ var bottomCenterBox = document.querySelector(`.bottom-center`)
 var bottomRightBox = document.querySelector(`.bottom-left`)
 
 
+var boxes = document.querySelectorAll(".box")
+
+
 // Event Listeners
-// playerOneWinCount
-// playerTwoWinCount
-// 
-topLeftBox.addEventListener('click', checkBox);
-topCenterBox.addEventListener('click', checkBox);
-topRightBox.addEventListener('click', checkBox);
+gameGrid.addEventListener('click', function(event){
+    alternateTokens(event)
+})
 
-centerLeftBox.addEventListener('click', checkBox);
-centerCenterBox.addEventListener('click', checkBox);
-centerRightBox.addEventListener('click', checkBox);
-
-bottomLeftBox.addEventListener ('click', checkBox);
-bottomCenterBox.addEventListener('click', checkBox);
-bottomRightBox.addEventListener('click', checkBox);
-
-shuffleStartButton.addEventListener('click', shuffleStart)
+window.addEventListener('load', function(event){
+    randomizePlayerStart(event);
+})
 
 
 // Data Model
+var playerOne = {
+    id: 'player 1',
+    token: 'assets/team-ariana.png',
+    wins: 0, 
+    goesFirst: true,
+    currentTurn: true,
+    moves:[]
+}
 
+var playerTwo = {
+    id: 'player 2',
+    token: 'assets/worm-with-mustach.png',
+    wins: 0, 
+    goesFirst: false,
+    currentTurn: false,
+    moves:[]
+}
+
+
+var playerList = [playerOne, playerTwo];
+
+var gameGrid = [];
 
 
 // Functions
 
-var players = [
-    {id: 'player 1', token:'X', wins: 0, goesFirst: true, moves:[]},
-    {id: 'player 2', token: 'O', wins: 0, goesFirst: true, moves:[]}
-];
-
-// function players(id, token, wins){
-    // return {
-        // id: id,
-        // token: token,
-        // wins: 0,
-        // goesFirst: true,
-    // }
-// }
-
-function shuffleStart(){
-    var randomArray = [1, 2, 3, 4, 5, 6]
-    var randomNumber = Math.floor(Math.random() * randomArray.length)
-
-    if(randomNumber % 2){
-        players[0].goesFirst =true
-        players[1].goesFirst = false
-        console.log(players)
-        return playersTurnStatement.innerText = 'Player 1 goes first!'
-    }else{
-        players[1].goesFirst = true
-        players[0].goesFirst = false
-        return playersTurnStatement.innerText = 'Player 2 goes first!'  
-        }
+// get random number shuffles the index positions between 0 and 1 for the playerList array
+function getRandomNumber(playerList){
+    return Math.floor(Math.random() * playerList.length)
 }
 
-function selectFirstToken(){
-    if(player[0].goesFirst=true){
+
+// shuffle start reassigns .goesFirst and .currentTurn values upon click
+function randomizePlayerStart(event){
+    var randomNumber = getRandomNumber(playerList)
+    console.log(randomNumber)
+
+    if (randomNumber == 0){
+        playerOne.goesFirst = true;
+        playerOne.currentTurn = true;
+        playerTwo.goesFirst = false;
+        playerTwo.currentTurn = false;
+
+        announcePlayerTurn()
+
+    } else if(!randomNumber == 0){
+        playerOne.goesFirst = false;
+        playerOne.currentTurn = false;
+        playerTwo.goesFirst = true;
+        playerTwo.currentTurn = true;
+
+        announcePlayerTurn()
 
     }
 }
-// 
 
-// function checkBox(event){
-    // console.log(event.target)
-    // shuffleStart()
-    // return event.target
-// }
-// 
-// 
-// 
+// update DOM with player turn
+function announcePlayerTurn(){
+    if(playerOne.currentTurn === true){
+        currentTurnStatement.innerText = 'It\'s Player One\'s Turn!'
+    }else if(playerTwo.currentTurn === true){
+        currentTurnStatement.innerText = 'It\'s Player Two\'s Turn!'
+    }
+}
+
+// alternate token on board click
+function alternateTokens(event){
+    var currentEventTargetId = event.target.id
+    
+    for( var i = 0; i<boxes.length; i++){
+        if(boxes[i].getAttribute('id') == currentEventTargetId && playerOne.currentTurn === true){
+            var boxToChange = boxes[i]
+            boxToChange.innerHTML += `
+                    <img class="ariana-token token" src="${playerOne.token}"/>
+                `
+            playerOne.currentTurn = false
+            playerTwo.currentTurn = true
+            playerOne.moves.push(currentEventTargetId)
+            announcePlayerTurn()
+
+        }else if (boxes[i].getAttribute('id') == currentEventTargetId && playerTwo.currentTurn === true){
+            var boxToChange = boxes[i]
+            boxToChange.innerHTML += `
+                    <img class="worm-token token" src="${playerTwo.token}"/>
+                `
+            playerOne.currentTurn = true
+            playerTwo.currentTurn = false
+            playerTwo.moves.push(currentEventTargetId)
+            announcePlayerTurn()
+        }
+    }
+
+}
