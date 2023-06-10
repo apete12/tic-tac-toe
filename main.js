@@ -28,7 +28,6 @@ var boxes = document.querySelectorAll(".box")
 
 // Event Listeners
 gameGrid.addEventListener('click', function(event){
-    identifyBox(event)
     alternateTokens(event)
 })
 
@@ -60,6 +59,7 @@ var playerTwo = {
 var playerList = [playerOne, playerTwo];
 
 var gameGrid = [];
+
 
 // Functions
 
@@ -102,50 +102,31 @@ function announcePlayerTurn(){
     }
 }
 
-
-// identify clicked box by class name, add to gameGrid data model
-function identifyBox(event){
-    var currentEventTargetClass = event.target.className
-    console.log(currentEventTargetClass)
-    for (var i=0; i<boxes.length; i++){
-        var currentBox = boxes[i]
-        if(currentEventTargetClass === currentBox.className){
-            currentBox.classList.remove('open')
-            gameGrid.push(currentBox)
-        }
-    }
-    return gameGrid
-}
-
-
 // alternate token on board click
 function alternateTokens(event){
-    var eventTargetClass = event.target.className
+    var currentEventTargetId = event.target.id
     
     for( var i = 0; i<boxes.length; i++){
-        if(boxes[i].className == eventTargetClass && playerOne.currentTurn === true){
-            announcePlayerTurn()
+        if(boxes[i].getAttribute('id') == currentEventTargetId && playerOne.currentTurn === true){
             var boxToChange = boxes[i]
-            boxToChange.innerHTML = `
-                <section class="${eventTargetClass}">
+            boxToChange.innerHTML += `
                     <img class="ariana-token token" src="${playerOne.token}"/>
-                </section>
                 `
             playerOne.currentTurn = false
             playerTwo.currentTurn = true
+            playerOne.moves.push(currentEventTargetId)
             announcePlayerTurn()
 
-        }else if (boxes[i].className == eventTargetClass && playerTwo.currentTurn === true){
-            announcePlayerTurn()
+        }else if (boxes[i].getAttribute('id') == currentEventTargetId && playerTwo.currentTurn === true){
             var boxToChange = boxes[i]
-            boxToChange.innerHTML = `
-                <section class="${eventTargetClass}">
+            boxToChange.innerHTML += `
                     <img class="worm-token token" src="${playerTwo.token}"/>
-                </section>
                 `
             playerOne.currentTurn = true
             playerTwo.currentTurn = false
+            playerTwo.moves.push(currentEventTargetId)
             announcePlayerTurn()
         }
     }
+
 }
