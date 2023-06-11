@@ -188,3 +188,23 @@ function checkDrawCombo(event){
     }
     return false;
 }
+
+function resetGame(event){
+    resetPlayerTurn()
+
+    for(i=0; i<boxes.length; i++){
+        var boxesToReset = boxes[i]
+        boxesToReset.innerHTML = ``
+
+        playerOne.moves =[];
+        playerTwo.moves=[];
+    }
+}
+
+function resetPlayerTurn(){
+    if(startingPlayer === playerOne){
+        startingPlayer = playerTwo
+    }else if(startingPlayer === playerTwo){
+        startingPlayer = playerOne
+    }
+}
