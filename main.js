@@ -20,7 +20,7 @@ var centerRightBox = document.querySelector(`.center-right`)
 
 var bottomLeftBox = document.querySelector(`.bottom-left`)
 var bottomCenterBox = document.querySelector(`.bottom-center`)
-var bottomRightBox = document.querySelector(`.bottom-left`)
+var bottomRightBox = document.querySelector(`.bottom-right`)
 
 
 var boxes = document.querySelectorAll(".box")
@@ -36,7 +36,7 @@ window.addEventListener('load', function(event){
 })
 
 
-// Data Model
+// Data Models
 var playerOne = {
     id: 'player 1',
     token: 'assets/team-ariana.png',
@@ -58,18 +58,10 @@ var winCombinations = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['1', 
 
 
 var playerList = [playerOne, playerTwo];
+var startingPlayer;
 
 // Functions
 
-function createPlayer(id, token, wins){
-    return {id: id,
-    token: token,
-    wins: wins,
-    goesFirst: true,
-    currentTurn: true,
-    moves:[]
-    }
-}
 
 function getRandomNumber(playerList){
     return Math.floor(Math.random() * playerList.length)
@@ -82,12 +74,14 @@ function randomizePlayerStart(event){
 
     if (randomNumber == 0){
         playerOne.currentTurn = true;
+        startingPlayer = playerOne
         playerTwo.currentTurn = false;
 
         announcePlayerTurn()
 
     } else if(!randomNumber == 0){
         playerOne.currentTurn = false;
+        startingPlayer = playerTwo
         playerTwo.currentTurn = true;
 
         announcePlayerTurn()
@@ -99,12 +93,12 @@ function alternateTurn(event){
     if(playerOne.currentTurn === true){
         playerOne.currentTurn = false
         playerTwo.currentTurn = true
-        announcePlayerTurn(event)
+        announcePlayerTurn()
 
     }else if(playerTwo.currentTurn === true){
         playerOne.currentTurn = true
         playerTwo.currentTurn = false
-        announcePlayerTurn(event)
+        announcePlayerTurn()
     }
 }
 
@@ -116,41 +110,43 @@ function announcePlayerTurn(){
     }
 }
 
-function updateDisplayTokens(event){
-    var currentEventTargetId = event.target.id
-    
-    for( var i = 0; i<boxes.length; i++){
-        if (boxes[i].getAttribute('id') == currentEventTargetId && playerOne.currentTurn === true){
-            var boxToChange = boxes[i]
-            boxToChange.innerHTML += `
-                    <img class="ariana-token token" src="${playerOne.token}"/>
-                `
-            playerOne.moves.push(event.target.id)
-            checkWinCombo(event)
-            alternateTurn(event)
 
-        }else if (boxes[i].getAttribute('id') == currentEventTargetId && playerTwo.currentTurn === true){
-            var boxToChange = boxes[i]
-            boxToChange.innerHTML += `
-                    <img class="worm-token token" src="${playerTwo.token}"/>
-                `
-            playerTwo.moves.push(event.target.id)
-            checkWinCombo(event)
-            alternateTurn(event)
+function updateDisplayTokens(event) {
+    var currentEventTargetId = event.target.id;
+  
+    for (var i = 0; i < boxes.length; i++) {
+      if (boxes[i].getAttribute('id') == currentEventTargetId && playerOne.currentTurn === true) {
+        var boxToChange = boxes[i];
+        boxToChange.innerHTML += `
+                  <img class="ariana-token token" src="${playerOne.token}"/>
+              `;
+        playerOne.moves.push(event.target.id);
+        if (!checkWinCombo(event) && !checkDrawCombo(event)) {
+          alternateTurn(event);
         }
+      } else if (boxes[i].getAttribute('id') == currentEventTargetId &&playerTwo.currentTurn === true) {
+        var boxToChange = boxes[i];
+        boxToChange.innerHTML += `
+                  <img class="worm-token token" src="${playerTwo.token}"/>
+              `;
+        playerTwo.moves.push(event.target.id);
+        if (!checkWinCombo(event) && !checkDrawCombo(event)) {
+          alternateTurn(event);
+        }
+      }
     }
-    console.log(playerList)
-}
+  }
+  
 
 function checkRepeat(event){
     var idCheck = event.target.id
+    console.log('id check 1', idCheck)
     if(playerOne.moves.includes(idCheck) || playerTwo.moves.includes(idCheck)){
         return true
     }else{
         updateDisplayTokens(event)
     }
 }
-
 
 function checkWinCombo(event){
 
@@ -166,13 +162,29 @@ function checkWinCombo(event){
 
         if(playerOneWin){
             playerOne.wins +=1
+            currentTurnStatement.innerText = 'Player One Wins!';
+            resetGame(event)
             return true;
 
         }else if(playerTwoWin){
             playerTwo.wins +=1
+            currentTurnStatement.innerText = 'Player Two Wins!';
+            resetGame(event)
             return true;
         }
     }
+    checkDrawCombo(event)
     return false;
 }
 
+function checkDrawCombo(event){
+    var totalMoves = playerOne.moves.length + playerTwo.moves.length
+    if (totalMoves === 9){
+        currentTurnStatement.innerText = 'This match is a tie!'
+        playerOne.wins += 0;
+        playerTwo.wins += 0;
+        resetGame(event)
+        return true
+    }
+    return false;
+}
