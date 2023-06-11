@@ -53,16 +53,9 @@ var playerTwo = {
     moves:[]
 }
 
-// var winCombinations = [['1', '2', '3']
-                    //    ['4', '5', '6']
-                    //    ['7', '8', '9']
-                    //    ['1', '5', '9']
-                    //    ['3', '5', '7']
-                    //    ['1', '5', '7']
-                    //    ['2', '6', '8']
-                    //    ['3', '6', '9']
-// ]
-// 
+var winCombinations = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['1', '5', '9'], ['3', '5', '7'], ['1', '5', '7'], ['2', '6', '8'], ['3', '6', '9']
+]
+
 
 var playerList = [playerOne, playerTwo];
 
@@ -78,13 +71,11 @@ function createPlayer(id, token, wins){
     }
 }
 
-// get random number shuffles the index positions between 0 and 1 for the playerList array
 function getRandomNumber(playerList){
     return Math.floor(Math.random() * playerList.length)
 }
 
 
-// shuffle start reassigns .goesFirst and .currentTurn values upon click
 function randomizePlayerStart(event){
     var randomNumber = getRandomNumber(playerList)
     console.log(randomNumber)
@@ -104,7 +95,6 @@ function randomizePlayerStart(event){
     }
 }
 
-// alternate token data model
 function alternateTurn(event){
     if(playerOne.currentTurn === true){
         playerOne.currentTurn = false
@@ -118,7 +108,6 @@ function alternateTurn(event){
     }
 }
 
-// update DOM with player turn
 function announcePlayerTurn(){
     if(playerOne.currentTurn === true){
         currentTurnStatement.innerText = 'It\'s Player One\'s Turn!'
@@ -127,11 +116,6 @@ function announcePlayerTurn(){
     }
 }
 
-
-// check for player one turn, if yes and clicked box matches iterated box --> place token player 1
-// push the event target id into that player moves array --> box id
-// check for player two turn, if yes and clicked box matches iterated box --> place token player 2
-// push the event target id into that player moves array --> box id
 function updateDisplayTokens(event){
     var currentEventTargetId = event.target.id
     
@@ -142,6 +126,7 @@ function updateDisplayTokens(event){
                     <img class="ariana-token token" src="${playerOne.token}"/>
                 `
             playerOne.moves.push(event.target.id)
+            checkWinCombo(event)
             alternateTurn(event)
 
         }else if (boxes[i].getAttribute('id') == currentEventTargetId && playerTwo.currentTurn === true){
@@ -150,6 +135,7 @@ function updateDisplayTokens(event){
                     <img class="worm-token token" src="${playerTwo.token}"/>
                 `
             playerTwo.moves.push(event.target.id)
+            checkWinCombo(event)
             alternateTurn(event)
         }
     }
@@ -166,19 +152,27 @@ function checkRepeat(event){
 }
 
 
-// would love for this to work!!!!!!! 
-// function announceRepeat(event){
-    // if(checkRepeat(event) === true){
-        // idCheck.disabled = true
-        // currentTurnStatement.innerText = 'PLEASE SELECT OPEN BOX'
-    // }
-// }
-// 
+function checkWinCombo(event){
 
-// if playerOne.moves.length includes winingCombos[i]
-// function checkWinCombosPlayerOne(event){
-    // for(i=0; i<playerOne.moves.length; i++){
-        // if(playerOne.moves[i].includes)
-    // }
-// 
-// 
+    for (var i=0; i < winCombinations.length; i++){
+        var winCombination = winCombinations[i];
+        
+        var playerOneWin = winCombination.every(function(position){
+            return (playerOne.moves.includes(position))
+        });
+        var playerTwoWin = winCombination.every(function(position){
+            return (playerTwo.moves.includes(position))
+        });
+
+        if(playerOneWin){
+            playerOne.wins +=1
+            return true;
+
+        }else if(playerTwoWin){
+            playerTwo.wins +=1
+            return true;
+        }
+    }
+    return false;
+}
+
