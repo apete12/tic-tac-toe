@@ -33,6 +33,7 @@ gameGrid.addEventListener('click', function(event){
 
 window.addEventListener('load', function(event){
     randomizePlayerStart(event);
+    console.log(startingPlayer)
 })
 
 
@@ -53,7 +54,7 @@ var playerTwo = {
     moves:[]
 }
 
-var winCombinations = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['1', '5', '9'], ['3', '5', '7'], ['1', '5', '7'], ['2', '6', '8'], ['3', '6', '9']
+var winCombinations = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['1', '5', '9'], ['3', '5', '7'], ['1', '4', '7'], ['2', '5', '8'], ['3', '6', '9']
 ]
 
 
@@ -68,39 +69,42 @@ function getRandomNumber(playerList){
 }
 
 
-function randomizePlayerStart(event){
+function randomizePlayerStart(){
     var randomNumber = getRandomNumber(playerList)
     console.log(randomNumber)
 
     if (randomNumber == 0){
         playerOne.currentTurn = true;
-        startingPlayer = playerOne
         playerTwo.currentTurn = false;
+        startingPlayer = playerOne
 
         announcePlayerTurn()
 
     } else if(!randomNumber == 0){
         playerOne.currentTurn = false;
-        startingPlayer = playerTwo
         playerTwo.currentTurn = true;
+        startingPlayer = playerTwo
 
         announcePlayerTurn()
 
     }
 }
 
-function alternateTurn(event){
+function alternateTurn(){
     if(playerOne.currentTurn === true){
         playerOne.currentTurn = false
         playerTwo.currentTurn = true
+        console.log('alternate turn', playerList)
         announcePlayerTurn()
 
     }else if(playerTwo.currentTurn === true){
         playerOne.currentTurn = true
         playerTwo.currentTurn = false
+        console.log('alternate turn', playerList)
         announcePlayerTurn()
     }
 }
+
 
 function announcePlayerTurn(){
     if(playerOne.currentTurn === true){
@@ -140,7 +144,7 @@ function updateDisplayTokens(event) {
 
 function checkRepeat(event){
     var idCheck = event.target.id
-    console.log('id check 1', idCheck)
+
     if(playerOne.moves.includes(idCheck) || playerTwo.moves.includes(idCheck)){
         return true
     }else{
@@ -151,30 +155,41 @@ function checkRepeat(event){
 function checkWinCombo(event){
 
     for (var i=0; i < winCombinations.length; i++){
-        var winCombination = winCombinations[i];
         
-        var playerOneWin = winCombination.every(function(position){
+        var playerOneWin = winCombinations[i].every(function(position){
             return (playerOne.moves.includes(position))
         });
-        var playerTwoWin = winCombination.every(function(position){
+        var playerTwoWin = winCombinations[i].every(function(position){
             return (playerTwo.moves.includes(position))
         });
 
         if(playerOneWin){
             playerOne.wins +=1
-            currentTurnStatement.innerText = 'Player One Wins!';
+            announcePlayerOneWin()
             resetGame(event)
             return true;
 
         }else if(playerTwoWin){
             playerTwo.wins +=1
-            currentTurnStatement.innerText = 'Player Two Wins!';
+            announcePlayerTwoWin()
             resetGame(event)
             return true;
         }
     }
     checkDrawCombo(event)
     return false;
+}
+
+
+function announcePlayerOneWin(){
+    currentTurnStatement.innerText = 'Player One Wins!';
+    playerOneWinCount.innerText = `Number of Wins: ${playerOne.wins}`
+
+}
+
+function announcePlayerTwoWin(){
+    currentTurnStatement.innerText = 'Player Two Wins!';
+    playerTwoWinCount.innerText = `Number of Wins: ${playerTwo.wins}`
 }
 
 function checkDrawCombo(event){
@@ -189,9 +204,7 @@ function checkDrawCombo(event){
     return false;
 }
 
-function resetGame(event){
-    resetPlayerTurn()
-
+function resetGame(){
     for(i=0; i<boxes.length; i++){
         var boxesToReset = boxes[i]
         boxesToReset.innerHTML = ``
@@ -199,12 +212,24 @@ function resetGame(event){
         playerOne.moves =[];
         playerTwo.moves=[];
     }
+    console.log('reset game', playerList)
+    resetPlayerTurn()
 }
+
 
 function resetPlayerTurn(){
     if(startingPlayer === playerOne){
-        startingPlayer = playerTwo
+        startingPlayer = playerTwo;
+        playerTwo.currentTurn = true;
+        playerOne.currentTurn = false;
     }else if(startingPlayer === playerTwo){
         startingPlayer = playerOne
+        playerTwo.currentTurn = false;
+        playerOne.currentTurn = true;
     }
 }
+
+
+
+
+
