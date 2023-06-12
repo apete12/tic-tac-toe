@@ -28,7 +28,12 @@ var boxes = document.querySelectorAll(".box")
 
 // Event Listeners
 gameGrid.addEventListener('click', function(event){
-    checkRepeat(event)
+    if(clickAllowed === false){
+        return
+    }else{
+        checkRepeat(event)
+    }
+    
 })
 
 window.addEventListener('load', function(event){
@@ -53,6 +58,7 @@ var playerTwo = {
     moves:[]
 }
 
+// Global Variables:
 var winCombinations = [['1', '2', '3'], 
                        ['4', '5', '6'],
                        ['7', '8', '9'], 
@@ -64,7 +70,10 @@ var winCombinations = [['1', '2', '3'],
                     ]
 
 var playerList = [playerOne, playerTwo];
+
 var startingPlayer;
+
+var clickAllowed = true;
 
 // Functions
 function getRandomNumber(playerList){
@@ -183,12 +192,17 @@ function checkWinCombo(event){
 function announcePlayerOneWin(){
     currentTurnStatement.innerText = 'Player One Wins!';
     playerOneWinCount.innerText = `Number of Wins: ${playerOne.wins}`
-
+    disableBoardClick()
 }
 
 function announcePlayerTwoWin(){
     currentTurnStatement.innerText = 'Player Two Wins!';
     playerTwoWinCount.innerText = `Number of Wins: ${playerTwo.wins}`
+    disableBoardClick()
+}
+
+function disableBoardClick(){
+    clickAllowed = false;
 }
 
 function checkDrawCombo(event){
@@ -210,6 +224,7 @@ function resetGame(){
             boxesToReset.innerHTML = ``
             playerOne.moves =[];
             playerTwo.moves=[];
+            clickAllowed = true;
         }
         resetPlayerTurn();
       }, 4000);
