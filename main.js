@@ -33,7 +33,6 @@ gameGrid.addEventListener('click', function(event){
 
 window.addEventListener('load', function(event){
     randomizePlayerStart(event);
-    console.log(startingPlayer)
 })
 
 
@@ -205,15 +204,16 @@ function checkDrawCombo(event){
 }
 
 function resetGame(){
-    for(i=0; i<boxes.length; i++){
-        var boxesToReset = boxes[i]
-        boxesToReset.innerHTML = ``
-
-        playerOne.moves =[];
-        playerTwo.moves=[];
-    }
-    console.log('reset game', playerList)
-    resetPlayerTurn()
+    setTimeout(function() {
+        for(i=0; i<boxes.length; i++){
+            var boxesToReset = boxes[i]
+            boxesToReset.innerHTML = ``
+            playerOne.moves =[];
+            playerTwo.moves=[];
+        }
+        resetPlayerTurn();
+      }, 4000);
+    
 }
 
 function resetPlayerTurn(){
@@ -221,14 +221,11 @@ function resetPlayerTurn(){
         startingPlayer = playerTwo;
         playerTwo.currentTurn = true;
         playerOne.currentTurn = false;
+        announcePlayerTurn()
     }else if(startingPlayer === playerTwo){
         startingPlayer = playerOne
         playerTwo.currentTurn = false;
         playerOne.currentTurn = true;
+        announcePlayerTurn()
     }
 }
-
-
-
-
-
