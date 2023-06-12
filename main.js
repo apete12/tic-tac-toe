@@ -57,17 +57,13 @@ var playerTwo = {
 var winCombinations = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['1', '5', '9'], ['3', '5', '7'], ['1', '4', '7'], ['2', '5', '8'], ['3', '6', '9']
 ]
 
-
 var playerList = [playerOne, playerTwo];
 var startingPlayer;
 
 // Functions
-
-
 function getRandomNumber(playerList){
     return Math.floor(Math.random() * playerList.length)
 }
-
 
 function randomizePlayerStart(){
     var randomNumber = getRandomNumber(playerList)
@@ -105,7 +101,6 @@ function alternateTurn(){
     }
 }
 
-
 function announcePlayerTurn(){
     if(playerOne.currentTurn === true){
         currentTurnStatement.innerText = 'It\'s Player One\'s Turn!'
@@ -113,7 +108,6 @@ function announcePlayerTurn(){
         currentTurnStatement.innerText = 'It\'s Player Two\'s Turn!'
     }
 }
-
 
 function updateDisplayTokens(event) {
     var currentEventTargetId = event.target.id;
@@ -180,7 +174,6 @@ function checkWinCombo(event){
     return false;
 }
 
-
 function announcePlayerOneWin(){
     currentTurnStatement.innerText = 'Player One Wins!';
     playerOneWinCount.innerText = `Number of Wins: ${playerOne.wins}`
@@ -215,7 +208,6 @@ function resetGame(){
     console.log('reset game', playerList)
     resetPlayerTurn()
 }
-
 
 function resetPlayerTurn(){
     if(startingPlayer === playerOne){
