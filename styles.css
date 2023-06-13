@@ -1,4 +1,3 @@
-
 body {
     height: 95vh;
     width: 95vw;
@@ -129,7 +128,7 @@ body {
 .bottom-center-grid {
     border-left: 5px solid white;
     border-right: 5px solid white;
-}
+} 
 
 .token {
     width: 6em;
