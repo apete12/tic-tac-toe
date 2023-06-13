@@ -1,39 +1,17 @@
-
 // Query Selectors
-var playerOneSymbol = document.querySelector(`.player-one-symbol`)
-var playerTwoSymbol = document.querySelector(`.player-two-symbol`)
-
-var playerOneWinCount = document.querySelector(`.win-one-count`)
-var playerTwoWinCount = document.querySelector(`.win-two-count`)
-
-var currentTurnStatement = document.querySelector(`.current-turn-statement`)
-
-var gameGrid = document.querySelector('.game-grid')
-
-var topLeftBox = document.querySelector(`.top-left`)
-var topCenterBox = document.querySelector(`.top-center`)
-var topRightBox = document.querySelector(`.top-right`)
-
-var centerLeftBox = document.querySelector(`.center-left`)
-var centerCenterBox = document.querySelector(`.center-center`)
-var centerRightBox = document.querySelector(`.center-right`)
-
-var bottomLeftBox = document.querySelector(`.bottom-left`)
-var bottomCenterBox = document.querySelector(`.bottom-center`)
-var bottomRightBox = document.querySelector(`.bottom-right`)
-
-
-var boxes = document.querySelectorAll(".box")
-
+var playerOneWinCount = document.querySelector(`.win-one-count`);
+var playerTwoWinCount = document.querySelector(`.win-two-count`);
+var currentTurnStatement = document.querySelector(`.current-turn-statement`);
+var gameGrid = document.querySelector('.game-grid');
+var boxes = document.querySelectorAll(".box");
 
 // Event Listeners
 gameGrid.addEventListener('click', function(event){
     if(clickAllowed === false){
         return
     }else{
-        checkRepeat(event)
+        checkRepeat(event);
     }
-    
 })
 
 window.addEventListener('load', function(event){
@@ -45,18 +23,20 @@ window.addEventListener('load', function(event){
 var playerOne = {
     id: 'player 1',
     token: 'assets/team-ariana.png',
+    tokenAltText: 'cartoon of ariana with text saying I was born cool',
     wins: 0, 
     currentTurn: true,
     moves:[]
-}
+};
 
 var playerTwo = {
     id: 'player 2',
     token: 'assets/worm-with-mustach.png',
+    tokenAltText: 'cartoon of a worm with a mustache and text saying you\'re a worm with a mustache',
     wins: 0, 
     currentTurn: false,
     moves:[]
-}
+};
 
 // Global Variables:
 var winCombinations = [['1', '2', '3'], 
@@ -67,7 +47,7 @@ var winCombinations = [['1', '2', '3'],
                        ['1', '4', '7'], 
                        ['2', '5', '8'], 
                        ['3', '6', '9']
-                    ]
+                    ];
 
 var playerList = [playerOne, playerTwo];
 
@@ -77,128 +57,125 @@ var clickAllowed = true;
 
 // Functions
 function getRandomNumber(playerList){
-    return Math.floor(Math.random() * playerList.length)
+    return Math.floor(Math.random() * playerList.length);
 }
 
 function randomizePlayerStart(){
-    var randomNumber = getRandomNumber(playerList)
-    console.log(randomNumber)
+    var randomNumber = getRandomNumber(playerList);
 
-    if (randomNumber == 0){
+    if (randomNumber === 0){
         playerOne.currentTurn = true;
         playerTwo.currentTurn = false;
-        startingPlayer = playerOne
+        startingPlayer = playerOne;
 
-        announcePlayerTurn()
+        announcePlayerTurn();
 
     } else if(!randomNumber == 0){
         playerOne.currentTurn = false;
         playerTwo.currentTurn = true;
-        startingPlayer = playerTwo
+        startingPlayer = playerTwo;
 
-        announcePlayerTurn()
+        announcePlayerTurn();
 
     }
 }
 
 function alternateTurn(){
     if(playerOne.currentTurn === true){
-        playerOne.currentTurn = false
-        playerTwo.currentTurn = true
-        console.log('alternate turn', playerList)
-        announcePlayerTurn()
+        playerOne.currentTurn = false;
+        playerTwo.currentTurn = true;
+        announcePlayerTurn();
 
     }else if(playerTwo.currentTurn === true){
-        playerOne.currentTurn = true
-        playerTwo.currentTurn = false
-        console.log('alternate turn', playerList)
-        announcePlayerTurn()
+        playerOne.currentTurn = true;
+        playerTwo.currentTurn = false;
+        announcePlayerTurn();
     }
 }
 
 function announcePlayerTurn(){
     if(playerOne.currentTurn === true){
-        currentTurnStatement.innerText = 'It\'s Player One\'s Turn!'
+        currentTurnStatement.innerText = 'It\'s Player One\'s Turn!';
     }else if(playerTwo.currentTurn === true){
-        currentTurnStatement.innerText = 'It\'s Player Two\'s Turn!'
+        currentTurnStatement.innerText = 'It\'s Player Two\'s Turn!';
     }
 }
 
-function updateDisplayTokens(event) {
+function checkRepeat(event){
+    var idCheck = event.target.id;
+
+    if(playerOne.moves.includes(idCheck) || playerTwo.moves.includes(idCheck)){
+        return true;
+    }else{
+        updateDisplayTokens(event);
+    }
+}
+
+  function updateDisplayTokens(event) {
     var currentEventTargetId = event.target.id;
-  
+
     for (var i = 0; i < boxes.length; i++) {
       if (boxes[i].getAttribute('id') == currentEventTargetId && playerOne.currentTurn === true) {
         var boxToChange = boxes[i];
         boxToChange.innerHTML += `
-                  <img class="ariana-token token" src="${playerOne.token}"/>
+                  <img class="ariana-token token" src="${playerOne.token}" alt="${playerOne.tokenAltText}"/>
               `;
         playerOne.moves.push(event.target.id);
-        if (!checkWinCombo(event) && !checkDrawCombo(event)) {
-          alternateTurn(event);
-        }
-      } else if (boxes[i].getAttribute('id') == currentEventTargetId &&playerTwo.currentTurn === true) {
+        checkWinDraw(event);
+
+      } else if (boxes[i].getAttribute('id') == currentEventTargetId && playerTwo.currentTurn === true) {
         var boxToChange = boxes[i];
         boxToChange.innerHTML += `
-                  <img class="worm-token token" src="${playerTwo.token}"/>
+                  <img class="worm-token token" src="${playerTwo.token}" alt="${playerTwo.tokenAltText}"/>
               `;
         playerTwo.moves.push(event.target.id);
-        if (!checkWinCombo(event) && !checkDrawCombo(event)) {
-          alternateTurn(event);
+        checkWinDraw(event);
         }
       }
     }
-  }
-  
 
-function checkRepeat(event){
-    var idCheck = event.target.id
-
-    if(playerOne.moves.includes(idCheck) || playerTwo.moves.includes(idCheck)){
-        return true
-    }else{
-        updateDisplayTokens(event)
+function checkWinDraw(event){
+    if(!checkWinCombo(event) && !checkDrawCombo(event)){
+        alternateTurn(event);
     }
 }
 
 function checkWinCombo(event){
-
-    for (var i=0; i < winCombinations.length; i++){
-        
+    for (var i = 0; i < winCombinations.length; i++){
         var playerOneWin = winCombinations[i].every(function(position){
-            return (playerOne.moves.includes(position))
+            return (playerOne.moves.includes(position));
         });
         var playerTwoWin = winCombinations[i].every(function(position){
-            return (playerTwo.moves.includes(position))
+            return (playerTwo.moves.includes(position));
         });
 
         if(playerOneWin){
-            playerOne.wins +=1
-            announcePlayerOneWin()
-            resetGame(event)
+            playerOne.wins +=1;
+            announcePlayerOneWin();
+            resetGame(event);
             return true;
 
         }else if(playerTwoWin){
-            playerTwo.wins +=1
-            announcePlayerTwoWin()
-            resetGame(event)
+            playerTwo.wins +=1;
+            announcePlayerTwoWin();
+            resetGame(event);
             return true;
         }
     }
-    checkDrawCombo(event)
+    checkDrawCombo(event);
     return false;
 }
 
 function announcePlayerOneWin(){
     currentTurnStatement.innerText = 'Player One Wins!';
-    playerOneWinCount.innerText = `Number of Wins: ${playerOne.wins}`
-    disableBoardClick()
+    playerOneWinCount.innerText = `Number of Wins: ${playerOne.wins}`;
+    disableBoardClick();
 }
 
 function announcePlayerTwoWin(){
     currentTurnStatement.innerText = 'Player Two Wins!';
-    playerTwoWinCount.innerText = `Number of Wins: ${playerTwo.wins}`
-    disableBoardClick()
+    playerTwoWinCount.innerText = `Number of Wins: ${playerTwo.wins}`;
+    disableBoardClick();
 }
 
 function disableBoardClick(){
@@ -206,29 +183,33 @@ function disableBoardClick(){
 }
 
 function checkDrawCombo(event){
-    var totalMoves = playerOne.moves.length + playerTwo.moves.length
+    var totalMoves = playerOne.moves.length + playerTwo.moves.length;
     if (totalMoves === 9){
-        currentTurnStatement.innerText = 'This match is a tie!'
         playerOne.wins += 0;
         playerTwo.wins += 0;
-        resetGame(event)
+        announceDraw();
+        resetGame(event);
         return true
     }
     return false;
 }
 
-function resetGame(){
-    setTimeout(function() {
-        for(i=0; i<boxes.length; i++){
-            var boxesToReset = boxes[i]
-            boxesToReset.innerHTML = ``
-            playerOne.moves =[];
-            playerTwo.moves=[];
-            clickAllowed = true;
-        }
-        resetPlayerTurn();
-      }, 4000);
-    
+function announceDraw(){
+    currentTurnStatement.innerText = 'This match is a tie!';
+}
+
+function resetGameData(){
+    playerOne.moves=[];
+    playerTwo.moves=[];
+    resetPlayerTurn();
+}
+
+function resetGameBoard(){
+    for(var i = 0; i<boxes.length; i++){
+        var boxesToReset = boxes[i];
+        boxesToReset.innerHTML = ``
+        clickAllowed = true;
+    }
 }
 
 function resetPlayerTurn(){
@@ -236,11 +217,21 @@ function resetPlayerTurn(){
         startingPlayer = playerTwo;
         playerTwo.currentTurn = true;
         playerOne.currentTurn = false;
-        announcePlayerTurn()
+        announcePlayerTurn();
     }else if(startingPlayer === playerTwo){
         startingPlayer = playerOne
         playerTwo.currentTurn = false;
         playerOne.currentTurn = true;
-        announcePlayerTurn()
+        announcePlayerTurn();
     }
 }
+
+function resetGame(){
+    setTimeout(function() {
+            resetGameData();
+            resetGameBoard();
+        },4000);
+}
+
+
+

@@ -1,5 +1,5 @@
 
-body{
+body {
     height: 95vh;
     width: 95vw;
     display: flex;
@@ -16,7 +16,7 @@ body{
 }
 
 .left-container,
-.right-container{
+.right-container {
     display: flex;
     flex-direction: column;
     border: black solid;
@@ -26,13 +26,13 @@ body{
     margin-top: 5px;
 }
 
-.vpr-cast{
+.vpr-cast {
     display: flex;
     width: 15em;
     height: auto;
 }
 
-.ariana-symbol-column{
+.ariana-symbol {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,7 +40,7 @@ body{
     height: 7em;
 }
 
-.tom-symbol-column{
+.tom-symbol {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,16 +48,7 @@ body{
     height: 7.2em;
 }
 
-.ariana-symbol,
-.tom-symbol{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 4em;
-    height: 4em;
-}
-
-.win-count{
+.win-count {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -65,21 +56,14 @@ body{
     font-size: 2em;
 }
 
-.center-container{
+.center-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
     width: 50vw;
 }
 
-
-.center-board-container{
-    display: flex;
-    justify-content: center;
-    width: 50vw;
-}
-
-.center-title-container{
+.center-title-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -88,7 +72,7 @@ body{
     font-size: 1em;
 }
 
-.header-img{
+.header-img {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,7 +80,8 @@ body{
     width: 100%;
 
 }
-.players-turn-statement{
+
+.players-turn-statement {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -115,39 +100,35 @@ body{
     padding: 20px;
   }
 
-  .box{
+  .box {
     display: flex;
     justify-content: center;
     background-color: #AC1195;
     align-items: center;
   }
 
-.center-left{
+.center-left-grid {
     border-bottom: 5px solid white;
     border-top: 5px solid white;
 }
 
-.center-right{
+.center-right-grid {
     border-bottom: 5px solid white;
     border-top: 5px solid white;
 }
 
-.top-center{
+.top-center-grid {
     border-left: 5px solid white;
     border-right: 5px solid white;
 }
 
-.center-center{
+.center-center-grid {
     border: 5px solid white;
 }
 
-.bottom-center{
+.bottom-center-grid {
     border-left: 5px solid white;
     border-right: 5px solid white;
-}
-
-.hidden {
-    display: none!important;
 }
 
 .token {
